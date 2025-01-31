@@ -23,7 +23,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final bool _isloading = false;
 
   String _email = '';
-  String _name = '';
+  final String _name = '';
   String _password = '';
   String _confirmPassword = '';
 
@@ -281,6 +281,7 @@ class _SignupScreenState extends State<SignupScreen> {
         } else if (val != _password) {
           return 'password does not match';
         }
+        return null;
       },
       onChanged: (value) {
         _confirmPassword = value;

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 import 'package:quiz_app/constant/global_variables.dart';
+import 'package:quiz_app/features/main/home.dart';
 import 'package:quiz_app/providers/user_provider.dart';
 import 'package:quiz_app/router.dart';
 
@@ -71,7 +72,7 @@ class _MyAppState extends State<MyApp> {
           useMaterial3: true,
         ),
         onGenerateRoute: (setting) => generateRoute(setting),
-        home: const AuthScreen()
+        home: const Home()
     );
   }
 }
