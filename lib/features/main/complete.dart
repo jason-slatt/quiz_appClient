@@ -245,8 +245,7 @@ class Completed extends StatelessWidget {
                         children: [
                           InkWell(
                             onTap: () {
-
-                              Navigator.pushNamed(context, Home.routeName);
+                              Navigator.pushReplacementNamed(context, Home.routeName, arguments: {"reset" : true});
                             },
                             child: const CircleAvatar(
                               backgroundColor: GlobalVariable.secondaryColor,
