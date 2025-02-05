@@ -16,8 +16,14 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(builder: (_) => const SignupScreen());
     case ForgetPasswordScreen.routeNamed :
       return MaterialPageRoute(builder: (_) => const ForgetPasswordScreen());
-    case Completed.routeName :
-      return MaterialPageRoute(builder: (_) => const Completed());
+    case Completed.routeName:
+      return MaterialPageRoute(
+        builder: (context) {
+          final args = routeSettings.arguments as  List<Object>;
+          return Completed(args: args); // Pass arguments explicitly
+        },
+      );
+
     case Home.routeName :
       return MaterialPageRoute(builder: (_) => const Home());
 
