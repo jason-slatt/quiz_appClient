@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_app/constant/global_variables.dart';
 import 'package:quiz_app/features/main/home.dart';
+import 'package:quiz_app/features/main/welcome.dart';
 
 class Completed extends StatelessWidget {
   static const routeName = '/completed';
@@ -17,6 +18,8 @@ class Completed extends StatelessWidget {
     final int totalQuestions = args[2] as int;
     final int correctAnswers = args[3] as int;
     final int wrongAnswers = args[4] as int;
+    final int ID = args[5] as int;
+    final String category = args[6] as String;
     return Scaffold(
       body: Builder(
         builder: (context) {
@@ -89,14 +92,14 @@ class Completed extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              blurRadius: 5,
-                              spreadRadius: 6,
-                              color: GlobalVariable.secondaryColor.withOpacity(.7),
-                              offset: const Offset(0, 1),
-                            )
-                          ],
+                            boxShadow: [
+                              BoxShadow(
+                                blurRadius: 5,
+                                spreadRadius: 6,
+                                color: GlobalVariable.secondaryColor.withOpacity(.7),
+                                offset: const Offset(0, 1),
+                              )
+                            ],
                         ),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 18),
@@ -245,7 +248,7 @@ class Completed extends StatelessWidget {
                         children: [
                           InkWell(
                             onTap: () {
-                              Navigator.pushReplacementNamed(context, Home.routeName, arguments: {"reset" : true});
+                              Navigator.pushReplacementNamed(context, Home.routeName, arguments: [ID , category]);
                             },
                             child: const CircleAvatar(
                               backgroundColor: GlobalVariable.secondaryColor,
@@ -264,20 +267,23 @@ class Completed extends StatelessWidget {
                                   fontSize: 15, fontWeight: FontWeight.w400)),
                         ],
                       ),
-                      const Column(
+                       Column(
                         children: [
-                          CircleAvatar(
-                            backgroundColor: Colors.green,
-                            radius: 35,
-                            child: Center(
-                                child: Icon(
-                                  Icons.home_filled,
-                                  size: 35,
-                                  color: Colors.white,
-                                )),
+                          InkWell(
+                            onTap : () { Navigator.pushNamed(context, Welcome.routeName);},
+                            child: const CircleAvatar(
+                              backgroundColor: Colors.green,
+                              radius: 35,
+                              child: Center(
+                                  child: Icon(
+                                    Icons.home_filled,
+                                    size: 35,
+                                    color: Colors.white,
+                                  )),
+                            ),
                           ),
-                          SizedBox(height: 10),
-                          Text('Home',
+                          const SizedBox(height: 10),
+                          const Text('Home',
                               style: TextStyle(
                                   fontSize: 15, fontWeight: FontWeight.w400))
                         ],

@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:quiz_app/features/auth/screens/auth_screen.dart';
 import 'package:quiz_app/features/auth/screens/forgetPassword_screen.dart';
@@ -5,6 +6,7 @@ import 'package:quiz_app/features/auth/screens/signIn_in.dart';
 import 'package:quiz_app/features/auth/screens/signUp_screen.dart';
 import 'package:quiz_app/features/main/complete.dart';
 import 'package:quiz_app/features/main/home.dart';
+import 'package:quiz_app/features/main/welcome.dart';
 
 Route<dynamic> generateRoute(RouteSettings routeSettings) {
   switch(routeSettings.name){
@@ -16,6 +18,8 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(builder: (_) => const SignupScreen());
     case ForgetPasswordScreen.routeNamed :
       return MaterialPageRoute(builder: (_) => const ForgetPasswordScreen());
+    case Welcome.routeName :
+      return MaterialPageRoute(builder: (_) => const Welcome());
     case Completed.routeName:
       return MaterialPageRoute(
         builder: (context) {
@@ -25,9 +29,8 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       );
 
     case Home.routeName :
-      return MaterialPageRoute(builder: (_) => const Home());
-
-
+      final category = routeSettings.arguments as List<dynamic>;
+      return MaterialPageRoute(builder: (_) =>  Home(args: category));
     default:
       return MaterialPageRoute(
           builder: (_) => const Scaffold(
