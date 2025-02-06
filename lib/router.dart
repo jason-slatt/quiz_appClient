@@ -1,12 +1,12 @@
 
 import 'package:flutter/material.dart';
-import 'package:quiz_app/features/auth/screens/auth_screen.dart';
-import 'package:quiz_app/features/auth/screens/forgetPassword_screen.dart';
-import 'package:quiz_app/features/auth/screens/signIn_in.dart';
-import 'package:quiz_app/features/auth/screens/signUp_screen.dart';
-import 'package:quiz_app/features/main/complete.dart';
-import 'package:quiz_app/features/main/home.dart';
-import 'package:quiz_app/features/main/welcome.dart';
+import 'package:HGArena/features/auth/screens/auth_screen.dart';
+import 'package:HGArena/features/auth/screens/forgetPassword_screen.dart';
+import 'package:HGArena/features/auth/screens/signIn_in.dart';
+import 'package:HGArena/features/auth/screens/signUp_screen.dart';
+import 'package:HGArena/features/main/complete.dart';
+import 'package:HGArena/features/main/home.dart';
+import 'package:HGArena/features/main/welcome.dart';
 
 Route<dynamic> generateRoute(RouteSettings routeSettings) {
   switch(routeSettings.name){

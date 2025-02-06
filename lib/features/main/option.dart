@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quiz_app/constant/global_variables.dart';
+import 'package:HGArena/constant/global_variables.dart';
 class Options extends StatelessWidget {
   final String options;
   const Options({super.key, required this.options});

@@ -1,9 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:quiz_app/constant/global_variables.dart';
-import 'package:quiz_app/features/auth/screens/signIn_in.dart';
-import 'package:quiz_app/features/auth/screens/signUp_screen.dart';
+import 'package:HGArena/constant/global_variables.dart';
+import 'package:HGArena/features/auth/screens/signIn_in.dart';
+import 'package:HGArena/features/auth/screens/signUp_screen.dart';
 
 
 class AuthScreen extends StatefulWidget {

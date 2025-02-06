@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:quiz_app/constant/global_variables.dart';
-import 'package:quiz_app/features/main/home.dart';
-import 'package:quiz_app/features/main/welcome.dart';
+import 'package:HGArena/constant/global_variables.dart';
+import 'package:HGArena/features/main/home.dart';
+import 'package:HGArena/features/main/welcome.dart';
 
 class Completed extends StatelessWidget {
   static const routeName = '/completed';

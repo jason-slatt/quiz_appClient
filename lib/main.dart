@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
-import 'package:quiz_app/constant/global_variables.dart';
-import 'package:quiz_app/features/main/home.dart';
-import 'package:quiz_app/features/main/welcome.dart';
-import 'package:quiz_app/providers/user_provider.dart';
-import 'package:quiz_app/router.dart';
+import 'package:HGArena/constant/global_variables.dart';
+import 'package:HGArena/features/main/home.dart';
+import 'package:HGArena/features/main/welcome.dart';
+import 'package:HGArena/providers/user_provider.dart';
+import 'package:HGArena/router.dart';
 
 import 'features/auth/screens/auth_screen.dart';
 
