@@ -2,24 +2,37 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 import 'package:HGArena/constant/global_variables.dart';
-import 'package:HGArena/features/main/home.dart';
 import 'package:HGArena/features/main/welcome.dart';
 import 'package:HGArena/providers/user_provider.dart';
 import 'package:HGArena/router.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'features/auth/screens/auth_screen.dart';
 
 void main() async {
-  runApp(MultiProvider(
+  WidgetsFlutterBinding
+      .ensureInitialized(); // Ensures Flutter is ready before initialization
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions
+        .currentPlatform, // Ensures Firebase is configured properly
+  );
+
+  configLoading(); // Call this after Firebase is initialized (if needed)
+
+  runApp(
+    MultiProvider(
       providers: [
         ChangeNotifierProvider(
-            create:(context) => UserProvider()
-        )
+          create: (context) => UserProvider(),
+        ),
       ],
-      child: const MyApp()));
-  configLoading();
+      child: const MyApp(),
+    ),
+  );
 }
-
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -29,24 +42,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  //AuthService authService = AuthService();
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    initializeApp();
-  }
-  Future<void> initializeApp() async {
-   // await authService.getUserData(context);
-
-    // Additional initialization logic if needed
-  }
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
-    final user = userProvider.user;
-
     return MaterialApp(
         title: 'IQ ARENA',
         darkTheme: ThemeData.dark(useMaterial3: true),
@@ -69,14 +67,16 @@ class _MyAppState extends State<MyApp> {
           //
           // This works for code too, not just values: Most code changes can be
           // tested with just a hot reload.
-          colorScheme: const ColorScheme.light(primary: GlobalVariable.secondaryColor, ),
+          colorScheme: const ColorScheme.light(
+            primary: GlobalVariable.secondaryColor,
+          ),
           useMaterial3: true,
         ),
         onGenerateRoute: (setting) => generateRoute(setting),
-        home: const Welcome()
-    );
+        home: AuthWrapper());
   }
 }
+
 void configLoading() {
   EasyLoading.instance
     ..displayDuration = const Duration(milliseconds: 4000)
@@ -88,8 +88,39 @@ void configLoading() {
     ..backgroundColor = Colors.green
     ..indicatorColor = Colors.yellow
     ..textColor = Colors.yellow
-    ..maskColor = Colors.blue.withOpacity(100)
+    ..maskColor = Colors.blue.withOpacity(0.5)
     ..userInteractions = true
     ..dismissOnTap = false;
   // ..customAnimation = CustomAnimation();
+}
+
+class AuthWrapper extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        final userProvider = Provider.of<UserProvider>(context, listen: false);
+
+        if (snapshot.hasData) {
+          User? user = snapshot.data;
+          if (user != null) {
+            userProvider.setUser(
+              user.displayName ?? "Guest",
+              user.email ?? "",
+              user.uid,
+              user.photoURL ?? "",
+            );
+          }
+          return const Welcome(); // Redirect to main page
+        }
+
+        return const AuthScreen(); // Redirect to login/signup if not signed in
+      },
+    );
+  }
 }

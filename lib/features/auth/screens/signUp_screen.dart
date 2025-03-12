@@ -1,9 +1,9 @@
-
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:HGArena/constant/global_variables.dart';
 import 'package:HGArena/features/auth/screens/signIn_in.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../widgets/custom_button.dart';
 
@@ -16,43 +16,111 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
   final _signupField = GlobalKey<FormState>();
-  final passkey = GlobalKey();
-
-  final bool _autoValide = false;
-  final bool _isloading = false;
-
-  String _email = '';
-  final String _name = '';
-  String _password = '';
-  String _confirmPassword = '';
-
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-
-  // final TextEditingController _confirmpasswordController =
-  //     TextEditingController();
-  //AuthService authService = AuthService();
 
   @override
   void dispose() {
-    _emailController.dispose();
-    _nameController.dispose();
-    _passwordController.dispose();
-    // _confirmpasswordController.dispose();
-    // TODO: implement dispose
+    // Dispose the controllers to avoid memory leaks
+    emailController.dispose();
+    passwordController.dispose();
+    usernameController.dispose();
     super.dispose();
   }
 
-  /* void signUpUser() {
-    authService.signUpUser(
-        context: context,
-        name: _nameController.text,
-        email: _emailController.text,
-        password: _passwordController.text);
-  }*/
+  // Sign-up function
+  Future<void> _signUp() async {
+    if (!_signupField.currentState!.validate()) {
+      // If form is not valid, return early
+      return;
+    }
 
+    String email = emailController.text.trim();
+    String password = passwordController.text.trim();
+    String username = usernameController.text.trim();
+
+    try {
+      // Show loading indicator while signing up
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => Center(child: CircularProgressIndicator()),
+      );
+
+      // Create user with email and password
+      UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      User? user = userCredential.user;
+
+      if (user != null) {
+        // Store username and other data in Firestore
+        await _firestore.collection("users").doc(user.uid).set({
+          "username": username,
+          "email": user.email,
+          "uid": user.uid,
+          "createdAt": FieldValue.serverTimestamp(),
+        });
+
+        // Send email verification
+        await user.sendEmailVerification();
+
+        // Hide loading indicator and show success message
+        Navigator.pop(context);
+        _showVerificationDialog(user.email);
+      }
+    } on FirebaseAuthException catch (e) {
+      // Handle error
+      Navigator.pop(context); // Close loading indicator
+      _showErrorDialog(e.message ?? "Sign-up failed");
+    }
+  }
+
+  // Show email verification dialog
+  void _showVerificationDialog(String? email) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Verify Your Email"),
+        content: Text(
+            "A verification email has been sent to $email. Please verify before logging in."),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text("OK"),
+          )
+        ],
+      ),
+    );
+  }
+
+  // Show error dialog
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Error"),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text("OK"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  final TextEditingController _emailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -106,10 +174,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
                 Container(
                   width: double.infinity,
-                  height: MediaQuery
-                      .of(context)
-                      .size
-                      .height,
+                  height: MediaQuery.of(context).size.height,
                   decoration: const BoxDecoration(
                       color: GlobalVariable.backgroundColor,
                       borderRadius: BorderRadius.only(
@@ -135,10 +200,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             ),
                           ),
                           SizedBox(
-                            height: MediaQuery
-                                .of(context)
-                                .size
-                                .height * 0.080,
+                            height: MediaQuery.of(context).size.height * 0.080,
                           ),
                           const Text(
                             'Sign Up',
@@ -146,10 +208,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                 fontSize: 21, fontWeight: FontWeight.bold),
                           ),
                           SizedBox(
-                            height: MediaQuery
-                                .of(context)
-                                .size
-                                .height * 0.010,
+                            height: MediaQuery.of(context).size.height * 0.010,
                           ),
                           Form(
                             key: _signupField,
@@ -161,10 +220,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                 //   hintext: 'Email',
                                 // ),
                                 SizedBox(
-                                  height: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .height *
+                                  height: MediaQuery.of(context).size.height *
                                       0.010,
                                 ),
                                 _nameWidget(),
@@ -172,10 +228,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                 //     controller: _nameController,
                                 //     hintext: 'Name'),
                                 SizedBox(
-                                  height: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .height *
+                                  height: MediaQuery.of(context).size.height *
                                       0.010,
                                 ),
                                 _passwordWidget(),
@@ -183,21 +236,15 @@ class _SignupScreenState extends State<SignupScreen> {
                                 //     controller: _passwordController,
                                 //     hintext: 'Password'),
                                 SizedBox(
-                                  height: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .height *
+                                  height: MediaQuery.of(context).size.height *
                                       0.010,
                                 ),
-                                _confirmPasswordWidget(),
+                                //_confirmPasswordWidget(),
                                 // CustomTextField(
                                 //     controller: _confirmpasswordController,
                                 //     hintext: 'Confirm Password'),
                                 SizedBox(
-                                  height: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .height *
+                                  height: MediaQuery.of(context).size.height *
                                       0.010,
                                 ),
                                 CustomButton(
@@ -205,14 +252,11 @@ class _SignupScreenState extends State<SignupScreen> {
                                     onTap: () {
                                       if (_signupField.currentState!
                                           .validate()) {
-                                        //signUpUser();
+                                        _signUp();
                                       }
                                     }),
                                 SizedBox(
-                                  height: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .height *
+                                  height: MediaQuery.of(context).size.height *
                                       0.010,
                                 ),
                                 Container(
@@ -252,7 +296,7 @@ class _SignupScreenState extends State<SignupScreen> {
   TextFormField _passwordWidget() {
     return TextFormField(
       obscureText: false,
-      controller: _passwordController,
+      controller: passwordController,
       validator: (val) {
         if (val == null || val.isEmpty) {
           return 'Password require';
@@ -260,9 +304,6 @@ class _SignupScreenState extends State<SignupScreen> {
           return 'password must be at least  8 characters';
         }
         return null;
-      },
-      onChanged: (value) {
-        _password = value;
       },
       decoration: const InputDecoration(
         hintText: 'Enter password',
@@ -272,7 +313,7 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  TextFormField _confirmPasswordWidget() {
+  /* TextFormField _confirmPasswordWidget() {
     return TextFormField(
       obscureText: false,
       validator: (val) {
@@ -284,7 +325,6 @@ class _SignupScreenState extends State<SignupScreen> {
         return null;
       },
       onChanged: (value) {
-        _confirmPassword = value;
       },
       decoration: const InputDecoration(
         hintText: 'Confirm Password',
@@ -292,7 +332,7 @@ class _SignupScreenState extends State<SignupScreen> {
         icon: Icon(Icons.lock_clock_outlined),
       ),
     );
-  }
+  }*/
 
   TextFormField _emailWidget() {
     return TextFormField(
@@ -303,14 +343,11 @@ class _SignupScreenState extends State<SignupScreen> {
         if (val == null || val.isEmpty) {
           return 'Email require';
         } else if (!RegExp(
-            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
             .hasMatch(val)) {
           return 'please enter a valid email address';
         }
         return null;
-      },
-      onChanged: (value) {
-        _email = value;
       },
       decoration: const InputDecoration(
         hintText: 'Enter email',
@@ -323,12 +360,10 @@ class _SignupScreenState extends State<SignupScreen> {
   TextFormField _nameWidget() {
     return TextFormField(
       obscureText: false,
-      controller: _nameController,
+      controller: usernameController,
       validator: (val) {
         if (val == null || val.isEmpty) {
           return 'Name require';
-        } else if (!RegExp(r'(^[a-zA-Z]*$)').hasMatch(val)) {
-          return 'Name must be a-z and A-Z';
         }
         return null;
       },

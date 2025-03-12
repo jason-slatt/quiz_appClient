@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1088798552262",
+    "project_id": "hqarena-fa4c8",
+    "storage_bucket": "hqarena-fa4c8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1088798552262:android:f5debb2b4a2e464e8967c7",
+        "android_client_info": {
+          "package_name": "com.example.quiz_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVPdJDS7ZqaHTflCW868mFteJ7scIf4lo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

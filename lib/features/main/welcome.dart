@@ -1,7 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:HGArena/constant/global_variables.dart';
 import 'package:HGArena/features/main/home.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/user_provider.dart';
 
 class Welcome extends StatefulWidget {
   static const routeName = '/welcome';
@@ -13,7 +15,7 @@ class Welcome extends StatefulWidget {
 
 class _WelcomeScreenState extends State<Welcome> {
   final List<Map<String, dynamic>> categories = GlobalVariable().categories;
- /* List categories = [];
+  /* List categories = [];
   Future api() async {
     final response = await http.get(Uri.parse("https://opentdb.com/api_category.php"));
     if (response.statusCode == 200) {
@@ -27,6 +29,10 @@ class _WelcomeScreenState extends State<Welcome> {
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final username = userProvider.username ?? "Guest";
+    final userphoto = userProvider.photoURL ?? '';
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -39,12 +45,13 @@ class _WelcomeScreenState extends State<Welcome> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Column(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Hi, John",
-                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                        "Hi, $username",
+                        style: TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold),
                       ),
                       Text(
                         "Let’s make this day productive",
@@ -53,10 +60,11 @@ class _WelcomeScreenState extends State<Welcome> {
                     ],
                   ),
                   CircleAvatar(
-                    radius: 30,
-                    backgroundColor: Colors.orange[100],
-                    child: const Icon(Icons.person, size: 40, color: Colors.orange),
-                  ),
+                      radius: 30,
+                      backgroundColor: Colors.orange[100],
+                      backgroundImage: userphoto.isNotEmpty
+                          ? NetworkImage(userphoto)
+                          : AssetImage("assets/arena1.jpg") as ImageProvider),
                 ],
               ),
 
@@ -108,8 +116,11 @@ class _WelcomeScreenState extends State<Welcome> {
                     return GestureDetector(
                       onTap: () {
                         // Navigate to Gameplay Screen with selected category
-                        Navigator.pushNamed(context, Home.routeName , arguments:[categories[index]['id'],categories[index]['name']]);
-
+                        Navigator.pushNamed(context, Home.routeName,
+                            arguments: [
+                              categories[index]['id'],
+                              categories[index]['name']
+                            ]);
                       },
                       child: _quizCategory(
                         categories[index]['icon'],
@@ -136,7 +147,11 @@ class _WelcomeScreenState extends State<Welcome> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(title, style: const TextStyle(color: Colors.grey)),
-            Text(value, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.blue)),
+            Text(value,
+                style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue)),
           ],
         ),
       ],
@@ -161,7 +176,9 @@ class _WelcomeScreenState extends State<Welcome> {
         children: [
           Icon(icon, size: 50, color: Colors.orange),
           const SizedBox(height: 10),
-          Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          Text(title,
+              style:
+                  const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           Text(subtitle, style: const TextStyle(color: Colors.grey)),
         ],
       ),
