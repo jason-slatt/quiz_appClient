@@ -1,3 +1,5 @@
+import 'package:HGArena/features/main/leaderboard.dart';
+import 'package:HGArena/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:HGArena/constant/global_variables.dart';
 import 'package:HGArena/features/main/home.dart';
@@ -7,14 +9,30 @@ import '../../providers/user_provider.dart';
 
 class Welcome extends StatefulWidget {
   static const routeName = '/welcome';
-  const Welcome({super.key});
+  final String userId;
+  const Welcome({super.key, required this.userId});
 
   @override
   State<Welcome> createState() => _WelcomeScreenState();
 }
 
 class _WelcomeScreenState extends State<Welcome> {
+  int? Rank;
+  int? Points;
   final List<Map<String, dynamic>> categories = GlobalVariable().categories;
+
+  void initState() {
+    super.initState();
+    fetchUserDate();
+  }
+
+  void fetchUserDate() async {
+    final userData = await getUserRankAndPoints(widget.userId);
+    setState(() {
+      Rank = userData?['rank'];
+      Points = userData?['totalPoints'];
+    });
+  }
   /* List categories = [];
   Future api() async {
     final response = await http.get(Uri.parse("https://opentdb.com/api_category.php"));
@@ -87,8 +105,14 @@ class _WelcomeScreenState extends State<Welcome> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    _statCard(Icons.emoji_events, "Ranking", "348"),
-                    _statCard(Icons.monetization_on, "Points", "1209"),
+                    GestureDetector(
+                      child: _statCard(Icons.emoji_events, "Ranking", "$Rank"),
+                      onTap: () {
+                        Navigator.pushNamed(
+                            context, LeaderboardScreen.routeName);
+                      },
+                    ),
+                    _statCard(Icons.monetization_on, "Points", "$Points"),
                   ],
                 ),
               ),

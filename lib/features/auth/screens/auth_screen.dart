@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:HGArena/features/main/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:HGArena/constant/global_variables.dart';
-import 'package:HGArena/features/auth/screens/signIn_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
@@ -150,35 +149,13 @@ class _AuthScreenState extends State<AuthScreen> {
                           padding: const EdgeInsets.only(
                               top: 20, right: 60, bottom: 20, left: 60),
                           height: 40,
-                          onPressed: () {
-                            Navigator.pushNamed(
-                              context,
-                              LoginScreen.routeName,
-                            );
-                          },
-                          color: Colors.blue,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: const Text(
-                            "log in",
-                            style: TextStyle(fontSize: 17, color: Colors.white),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        MaterialButton(
-                          padding: const EdgeInsets.only(
-                              top: 20, right: 60, bottom: 20, left: 60),
-                          height: 40,
                           onPressed: () => signInWithGoogle(context),
                           color: Colors.transparent,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: const Text(
-                            "join with google",
+                            "join with Google",
                             style: TextStyle(fontSize: 17, color: Colors.white),
                           ),
                         ),

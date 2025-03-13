@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:HGArena/utils/audManager.dart';
 import 'package:flutter/material.dart';
 import 'package:HGArena/constant/global_variables.dart';
 import 'package:HGArena/features/main/complete.dart';
@@ -50,6 +51,11 @@ class _HomeState extends State<Home> {
     api();
     startTimer();
     resetGame();
+  }
+
+  void dispose() {
+    BackgroundMusic.stop();
+    super.dispose();
   }
 
   Future api() async {

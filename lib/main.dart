@@ -1,3 +1,4 @@
+import 'package:HGArena/utils/audManager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
@@ -8,12 +9,19 @@ import 'package:HGArena/router.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'features/auth/screens/auth_screen.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  print("Handling a background message: ${message.messageId}");
+}
 
 void main() async {
   WidgetsFlutterBinding
       .ensureInitialized(); // Ensures Flutter is ready before initialization
+
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions
@@ -42,6 +50,42 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  void initState() {
+    BackgroundMusic.play();
+    setupFCM();
+    super.initState();
+  }
+
+  void setupFCM() async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    // Request Notification Permissions
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      print("Notification Permission Granted!");
+    }
+
+    // Get FCM Token
+    String? token = await messaging.getToken();
+    print("FCM Token: $token");
+
+    // 📌 Foreground (App Open) Notification Handler
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print("Foreground Notification: ${message.notification?.title}");
+    });
+
+    // 📌 When App is Opened by Clicking a Notification
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print(
+          "User Opened App from Notification: ${message.notification?.title}");
+    });
+  }
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -88,7 +132,6 @@ void configLoading() {
     ..backgroundColor = Colors.green
     ..indicatorColor = Colors.yellow
     ..textColor = Colors.yellow
-    ..maskColor = Colors.blue.withOpacity(0.5)
     ..userInteractions = true
     ..dismissOnTap = false;
   // ..customAnimation = CustomAnimation();
@@ -97,6 +140,7 @@ void configLoading() {
 class AuthWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    String userId = '';
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
@@ -112,11 +156,13 @@ class AuthWrapper extends StatelessWidget {
             userProvider.setUser(
               user.displayName ?? "Guest",
               user.email ?? "",
-              user.uid,
+              userId = user.uid,
               user.photoURL ?? "",
             );
           }
-          return const Welcome(); // Redirect to main page
+          return Welcome(
+            userId: userId,
+          ); // Redirect to main page
         }
 
         return const AuthScreen(); // Redirect to login/signup if not signed in
