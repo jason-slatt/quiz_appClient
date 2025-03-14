@@ -14,7 +14,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Set up Flutter
       uses: subosito/flutter-action@v2
@@ -32,10 +32,9 @@ jobs:
 
     - name: Upload to Firebase App Distribution
       env:
-        FIREBASE_SERVICE_ACCOUNT_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}  # Store Firebase token in GitHub Secrets
       run: |
-        echo $FIREBASE_SERVICE_ACCOUNT_KEY > firebase-service-account.json
         firebase appdistribution:distribute build/app/outputs/flutter-apk/app-release.apk \
           --app 1:1088798552262:android:f5debb2b4a2e464e8967c7 \
           --groups "testers" \
-          --token $(firebase login:ci)
+          --token "$FIREBASE_TOKEN"
