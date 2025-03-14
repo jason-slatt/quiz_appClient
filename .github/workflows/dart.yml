@@ -18,12 +18,12 @@ jobs:
       with:
         flutter-version: '3.29.0'
 
-     - name: Verify Dart SDK version
+    - name: Verify Dart SDK version
       run: flutter --version
 
     - name: Clear Pub cache
-      run: flutter pub cache repair
-# This will ensure that the latest stable version of Dart is installed.
+      run: flutter pub cache repair    # This will ensure that the latest stable version of Dart is installed.
+
     
 
     - name: Install dependencies
