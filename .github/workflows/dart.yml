@@ -17,6 +17,13 @@ jobs:
       uses: subosito/flutter-action@v2
       with:
         flutter-version: '3.7.0'
+s
+     # Install Dart SDK 3.x
+    - name: Set up Dart SDK
+      uses: dart-lang/setup-dart@v1
+      with:
+        sdk: "stable"  # This will ensure that the latest stable version of Dart is installed.
+    
 
     - name: Install dependencies
       run: flutter pub get
