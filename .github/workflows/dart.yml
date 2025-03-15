@@ -47,10 +47,6 @@ jobs:
     - name: Debug Android Embedding
       run: cat android/app/src/main/kotlin/com/example/quiz_app/MainActivity.kt || echo "MainActivity not found."
 
-    - name: Run Gradle Wrapper to Update Gradle Version
-      run: 
-        cd android && ./gradlew wrapper --gradle-version 8.0 --distribution-type all
-
     - name: Run tests
       run: flutter test || echo "Tests failed but continuing deployment."
 
