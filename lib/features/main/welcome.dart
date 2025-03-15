@@ -1,10 +1,10 @@
 // ignore_for_file: deprecated_member_use
 
-import 'package:HGArena/features/main/leaderboard.dart';
-import 'package:HGArena/utils/helpers.dart';
+import 'package:hq_arena/features/main/leaderboard.dart';
+import 'package:hq_arena/utils/helpers.dart';
 import 'package:flutter/material.dart';
-import 'package:HGArena/constant/global_variables.dart';
-import 'package:HGArena/features/main/home.dart';
+import 'package:hq_arena/constant/global_variables.dart';
+import 'package:hq_arena/features/main/home.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/user_provider.dart';
@@ -19,8 +19,8 @@ class Welcome extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<Welcome> {
-  int? Rank;
-  int? Points;
+  int? rank;
+  int? points;
   final List<Map<String, dynamic>> categories = GlobalVariable().categories;
 
   @override
@@ -32,8 +32,8 @@ class _WelcomeScreenState extends State<Welcome> {
   void fetchUserDate() async {
     final userData = await getUserRankAndPoints(widget.userId);
     setState(() {
-      Rank = userData?['rank'];
-      Points = userData?['totalPoints'];
+      rank = userData?['rank'];
+      points = userData?['totalPoints'];
     });
   }
   /* List categories = [];
@@ -110,13 +110,13 @@ class _WelcomeScreenState extends State<Welcome> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     GestureDetector(
-                      child: _statCard(Icons.emoji_events, "Ranking", "$Rank"),
+                      child: _statCard(Icons.emoji_events, "Ranking", "$rank"),
                       onTap: () {
                         Navigator.pushNamed(
                             context, LeaderboardScreen.routeName);
                       },
                     ),
-                    _statCard(Icons.monetization_on, "Points", "$Points"),
+                    _statCard(Icons.monetization_on, "Points", "$points"),
                   ],
                 ),
               ),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:HGArena/constant/global_variables.dart';
-
+import 'package:hq_arena/constant/global_variables.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
@@ -11,18 +10,14 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialButton(
       minWidth: double.infinity,
-      padding: const  EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 20),
+      padding: const EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 20),
       onPressed: onTap,
       color: GlobalVariable.secondaryColor,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15)
-      ),
-      child:  Text(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      child: Text(
         text,
         style: const TextStyle(
-            color: GlobalVariable.backgroundColor,
-            fontSize: 17
-        ),
+            color: GlobalVariable.backgroundColor, fontSize: 17),
       ),
     );
   }

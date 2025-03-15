@@ -1,13 +1,13 @@
 // ignore_for_file: avoid_print
 
-import 'package:HGArena/utils/audManager.dart';
+import 'package:hq_arena/utils/audManager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
-import 'package:HGArena/constant/global_variables.dart';
-import 'package:HGArena/features/main/welcome.dart';
-import 'package:HGArena/providers/user_provider.dart';
-import 'package:HGArena/router.dart';
+import 'package:hq_arena/constant/global_variables.dart';
+import 'package:hq_arena/features/main/welcome.dart';
+import 'package:hq_arena/providers/user_provider.dart';
+import 'package:hq_arena/router.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';

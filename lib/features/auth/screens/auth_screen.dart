@@ -2,9 +2,9 @@
 
 import 'dart:ui';
 
-import 'package:HGArena/features/main/welcome.dart';
+import 'package:hq_arena/features/main/welcome.dart';
 import 'package:flutter/material.dart';
-import 'package:HGArena/constant/global_variables.dart';
+import 'package:hq_arena/constant/global_variables.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';

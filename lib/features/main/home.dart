@@ -3,11 +3,11 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:HGArena/utils/audManager.dart';
+import 'package:hq_arena/utils/audManager.dart';
 import 'package:flutter/material.dart';
-import 'package:HGArena/constant/global_variables.dart';
-import 'package:HGArena/features/main/complete.dart';
-import 'package:HGArena/features/main/option.dart';
+import 'package:hq_arena/constant/global_variables.dart';
+import 'package:hq_arena/features/main/complete.dart';
+import 'package:hq_arena/features/main/option.dart';
 import 'package:http/http.dart' as http;
 
 class Home extends StatefulWidget {
@@ -21,7 +21,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   // Ensure arguments are not null and categoryID is properly extracted
-  late int ID;
+  late int id;
   late String category = " ";
   int totalQuestions = 0;
   double completionPercentage = 0.0;
@@ -41,7 +41,7 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     // Safely extract arguments from widget.args
-    ID = widget.args.isNotEmpty
+    id = widget.args.isNotEmpty
         ? (widget.args[0] as int?) ?? 0 // Extract the first argument (ID)
         : 0; // Default to 0 if not available
 
@@ -63,7 +63,7 @@ class _HomeState extends State<Home> {
 
   Future api() async {
     final response = await http.get(Uri.parse(
-        "https://opentdb.com/api.php?amount=10&category=$ID&difficulty=easy&type=multiple"));
+        "https://opentdb.com/api.php?amount=10&category=$id&difficulty=easy&type=multiple"));
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body)['results'];
       setState(() {
@@ -272,7 +272,7 @@ class _HomeState extends State<Home> {
   }
 
   void completed() {
-    ID;
+    id;
     category;
 
     _timer.cancel();
@@ -305,7 +305,7 @@ class _HomeState extends State<Home> {
         totalQuestions,
         correctAnswers,
         wrongAnswers,
-        ID,
+        id,
         category,
       ],
     );

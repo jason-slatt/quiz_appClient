@@ -1,4 +1,4 @@
-import 'package:HGArena/utils/helpers.dart';
+import 'package:hq_arena/utils/helpers.dart';
 import 'package:flutter/material.dart';
 
 class LeaderboardScreen extends StatelessWidget {

@@ -1,12 +1,12 @@
 // ignore_for_file: deprecated_member_use
 
-import 'package:HGArena/features/main/leaderboard.dart';
-import 'package:HGArena/providers/user_provider.dart';
-import 'package:HGArena/utils/helpers.dart';
+import 'package:hq_arena/features/main/leaderboard.dart';
+import 'package:hq_arena/providers/user_provider.dart';
+import 'package:hq_arena/utils/helpers.dart';
 import 'package:flutter/material.dart';
-import 'package:HGArena/constant/global_variables.dart';
-import 'package:HGArena/features/main/home.dart';
-import 'package:HGArena/features/main/welcome.dart';
+import 'package:hq_arena/constant/global_variables.dart';
+import 'package:hq_arena/features/main/home.dart';
+import 'package:hq_arena/features/main/welcome.dart';
 import 'package:provider/provider.dart';
 
 class Completed extends StatelessWidget {
@@ -26,7 +26,7 @@ class Completed extends StatelessWidget {
     final int totalQuestions = args[2] as int;
     final int correctAnswers = args[3] as int;
     final int wrongAnswers = args[4] as int;
-    final int ID = args[5] as int;
+    final int id = args[5] as int;
     final String category = args[6] as String;
 
     updateUserScore(userId, username, totalScore);
@@ -270,7 +270,7 @@ class Completed extends StatelessWidget {
                           onTap: () {
                             Navigator.pushReplacementNamed(
                                 context, Home.routeName,
-                                arguments: [ID, category]);
+                                arguments: [id, category]);
                           },
                           child: const CircleAvatar(
                             backgroundColor: GlobalVariable.secondaryColor,

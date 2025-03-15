@@ -1,23 +1,14 @@
-import 'package:HGArena/features/main/leaderboard.dart';
+import 'package:hq_arena/features/main/leaderboard.dart';
 import 'package:flutter/material.dart';
-import 'package:HGArena/features/auth/screens/auth_screen.dart';
-import 'package:HGArena/features/auth/screens/forgetPassword_screen.dart';
-import 'package:HGArena/features/auth/screens/signIn_in.dart';
-import 'package:HGArena/features/auth/screens/signUp_screen.dart';
-import 'package:HGArena/features/main/complete.dart';
-import 'package:HGArena/features/main/home.dart';
-import 'package:HGArena/features/main/welcome.dart';
+import 'package:hq_arena/features/auth/screens/auth_screen.dart';
+import 'package:hq_arena/features/main/complete.dart';
+import 'package:hq_arena/features/main/home.dart';
+import 'package:hq_arena/features/main/welcome.dart';
 
 Route<dynamic> generateRoute(RouteSettings routeSettings) {
   switch (routeSettings.name) {
     case AuthScreen.routeName:
       return MaterialPageRoute(builder: (_) => const AuthScreen());
-    case LoginScreen.routeName:
-      return MaterialPageRoute(builder: (_) => const LoginScreen());
-    case SignupScreen.routeNamed:
-      return MaterialPageRoute(builder: (_) => const SignupScreen());
-    case ForgetPasswordScreen.routeNamed:
-      return MaterialPageRoute(builder: (_) => const ForgetPasswordScreen());
     case Welcome.routeName:
       final userId = routeSettings.arguments as String;
       return MaterialPageRoute(
