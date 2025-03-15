@@ -47,7 +47,7 @@ jobs:
     - name: Remove Gradle Wrapper and Cache
       run: |
         rm -rf android/.gradle android/app/build android/build
-        ./gradlew wrapper --gradle-version 8.0 --distribution-type all
+        .gradlew wrapper --gradle-version 8.0 --distribution-type all
 
 
     - name: Run tests
