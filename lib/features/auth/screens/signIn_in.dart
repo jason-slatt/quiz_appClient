@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:ui';
 
 import 'package:HGArena/features/main/welcome.dart';
@@ -52,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
         // Check if email is verified
         if (!user.emailVerified) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
+            const SnackBar(
                 content: Text("Please verify your email before logging in.")),
           );
           await _auth.signOut();

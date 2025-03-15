@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -50,7 +52,7 @@ class _SignupScreenState extends State<SignupScreen> {
       showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (context) => Center(child: CircularProgressIndicator()),
+        builder: (context) => const Center(child: CircularProgressIndicator()),
       );
 
       // Create user with email and password
@@ -90,13 +92,13 @@ class _SignupScreenState extends State<SignupScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("Verify Your Email"),
+        title: const Text("Verify Your Email"),
         content: Text(
             "A verification email has been sent to $email. Please verify before logging in."),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text("OK"),
+            child: const Text("OK"),
           )
         ],
       ),
@@ -108,12 +110,12 @@ class _SignupScreenState extends State<SignupScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("Error"),
+        title: const Text("Error"),
         content: Text(message),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text("OK"),
+            child: const Text("OK"),
           ),
         ],
       ),

@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:HGArena/features/main/leaderboard.dart';
 import 'package:HGArena/utils/helpers.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +23,7 @@ class _WelcomeScreenState extends State<Welcome> {
   int? Points;
   final List<Map<String, dynamic>> categories = GlobalVariable().categories;
 
+  @override
   void initState() {
     super.initState();
     fetchUserDate();
@@ -68,10 +71,10 @@ class _WelcomeScreenState extends State<Welcome> {
                     children: [
                       Text(
                         "Hi, $username",
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 24, fontWeight: FontWeight.bold),
                       ),
-                      Text(
+                      const Text(
                         "Let’s make this day productive",
                         style: TextStyle(fontSize: 16, color: Colors.grey),
                       ),
@@ -82,7 +85,8 @@ class _WelcomeScreenState extends State<Welcome> {
                       backgroundColor: Colors.orange[100],
                       backgroundImage: userphoto.isNotEmpty
                           ? NetworkImage(userphoto)
-                          : AssetImage("assets/arena1.jpg") as ImageProvider),
+                          : const AssetImage("assets/arena1.jpg")
+                              as ImageProvider),
                 ],
               ),
 

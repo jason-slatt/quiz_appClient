@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:HGArena/utils/audManager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -50,6 +52,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  @override
   void initState() {
     BackgroundMusic.play();
     setupFCM();
@@ -117,7 +120,7 @@ class _MyAppState extends State<MyApp> {
           useMaterial3: true,
         ),
         onGenerateRoute: (setting) => generateRoute(setting),
-        home: AuthWrapper());
+        home: const AuthWrapper());
   }
 }
 
@@ -138,6 +141,8 @@ void configLoading() {
 }
 
 class AuthWrapper extends StatelessWidget {
+  const AuthWrapper({super.key});
+
   @override
   Widget build(BuildContext context) {
     String userId = '';

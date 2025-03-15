@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:ui';
 
 import 'package:HGArena/features/main/welcome.dart';
@@ -45,11 +47,11 @@ class _AuthScreenState extends State<AuthScreen> {
       UserCredential userCredential =
           await _auth.signInWithCredential(credential);
 
-      print("UserCredential Response: $userCredential");
+      //print("UserCredential Response: $userCredential");
 
       User? user = userCredential.user;
 
-      print("User Details: $user");
+      //print("User Details: $user");
 
       if (user != null) {
         // Save user details in Provider
@@ -64,7 +66,7 @@ class _AuthScreenState extends State<AuthScreen> {
       // Return the Firebase user
       return userCredential.user;
     } catch (e) {
-      print("Error during Google Sign-In: $e");
+      //print("Error during Google Sign-In: $e");
       return null;
     }
   }
@@ -72,7 +74,7 @@ class _AuthScreenState extends State<AuthScreen> {
   Future<void> signOut() async {
     await googleSignIn.signOut();
     await _auth.signOut();
-    print("User signed out");
+    //print("User signed out");
   }
 
   @override

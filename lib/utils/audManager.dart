@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:audioplayers/audioplayers.dart';
 
 class BackgroundMusic {
@@ -8,7 +10,7 @@ class BackgroundMusic {
       await _player.setSource(AssetSource('sounds/bg.mp3'));
       _player.setReleaseMode(ReleaseMode.loop); // Loop the music
     } catch (e) {
-      print("Error playing music: $e");
+      //print("Error playing music: $e");
     }
   }
 

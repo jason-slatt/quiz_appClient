@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'dart:async';
 import 'dart:convert';
 
@@ -53,6 +55,7 @@ class _HomeState extends State<Home> {
     resetGame();
   }
 
+  @override
   void dispose() {
     BackgroundMusic.stop();
     super.dispose();

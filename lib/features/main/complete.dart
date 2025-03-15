@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:HGArena/features/main/leaderboard.dart';
 import 'package:HGArena/providers/user_provider.dart';
 import 'package:HGArena/utils/helpers.dart';
@@ -48,7 +50,7 @@ class Completed extends StatelessWidget {
                     child: Center(
                       child: CircleAvatar(
                         radius: 85,
-                        backgroundColor: Colors.white.withOpacity(.3),
+                        backgroundColor: Colors.white.withOpacity(0),
                         child: CircleAvatar(
                           radius: 71,
                           backgroundColor: Colors.white.withOpacity(.4),
@@ -321,7 +323,7 @@ class Completed extends StatelessWidget {
                             Navigator.pushNamed(
                                 context, LeaderboardScreen.routeName);
                           },
-                          child: CircleAvatar(
+                          child: const CircleAvatar(
                             backgroundColor: GlobalVariable.secondaryColor,
                             radius: 35,
                             child: Center(
@@ -332,8 +334,8 @@ class Completed extends StatelessWidget {
                             )),
                           ),
                         ),
-                        SizedBox(height: 10),
-                        Text('Leader Board',
+                        const SizedBox(height: 10),
+                        const Text('Leader Board',
                             style: TextStyle(
                                 fontSize: 15, fontWeight: FontWeight.w400))
                       ],

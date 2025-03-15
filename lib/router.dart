@@ -25,7 +25,7 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
                 userId: userId,
               ));
     case LeaderboardScreen.routeName:
-      return MaterialPageRoute(builder: (_) => LeaderboardScreen());
+      return MaterialPageRoute(builder: (_) => const LeaderboardScreen());
     case Completed.routeName:
       return MaterialPageRoute(
         builder: (context) {

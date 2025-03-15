@@ -3,20 +3,22 @@ import 'package:flutter/material.dart';
 
 class LeaderboardScreen extends StatelessWidget {
   static const String routeName = '/leaderboard';
+
+  const LeaderboardScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Leaderboard"),
+        title: const Text("Leaderboard"),
         centerTitle: true,
       ),
       body: StreamBuilder<List<Map<String, dynamic>>>(
         stream: getLeaderboard(), // Fetching the leaderboard
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text("No leaderboard data available"));
+            return const Center(child: Text("No leaderboard data available"));
           } else {
             final leaderboard = snapshot.data!;
             return ListView.builder(
