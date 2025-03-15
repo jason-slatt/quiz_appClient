@@ -6,15 +6,19 @@
 // tree, read text, and verify that the values of widget properties are correct.
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hq_arena/firebase_options.dart';
 import 'package:hq_arena/main.dart';
 import 'package:mockito/annotations.dart';
 
 // Generates mocks for Firebase
 @GenerateMocks([], customMocks: [MockSpec<Firebase>()])
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
   setUpAll(() async {
-    TestWidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp(); // Initialize Firebase for tests
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions
+          .currentPlatform, // Ensures Firebase is configured properly
+    ); // Initialize Firebase for tests
   });
   testWidgets('Quiz question appears on the screen',
       (WidgetTester tester) async {
