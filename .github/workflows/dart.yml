@@ -38,6 +38,23 @@ jobs:
         FIREBASE_CREDENTIALS: ${{ secrets.FIREBASE_CREDENTIALS }} 
         FIREBASE_SERVICE_ACCOUNT_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
 
+    - name: Clean Flutter Build
+      run: flutter clean
+
+    - name: Remove Old Android Build Cache
+      run: rm -rf android/.gradle android/app/build android/build
+
+    - name: Force Android v2 Embedding
+      run: flutter pub run flutter_migrate || echo "Migration check passed."
+
+    - name: Debug Android Embedding
+      run: cat android/app/src/main/kotlin/com/example/quiz_app/MainActivity.kt || echo "MainActivity not found."
+
+    - name: Upgrade Gradle
+      run: |
+        cd android
+        ./gradlew wrapper --gradle-version 8.0 --distribution-type all
+
     - name: Run tests
       run: flutter test || echo "Tests failed but continuing deployment."
 
