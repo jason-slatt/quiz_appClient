@@ -7,7 +7,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hq_arena/main.dart';
+import 'package:mockito/annotations.dart';
 
+// Generates mocks for Firebase
+@GenerateMocks([], customMocks: [MockSpec<Firebase>()])
 void main() {
   setUpAll(() async {
     TestWidgetsFlutterBinding.ensureInitialized();

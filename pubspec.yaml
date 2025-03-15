@@ -48,6 +48,9 @@ dependencies:
   audioplayers: ^6.4.0
   firebase_messaging: ^14.7.10
   firebase_app_distribution: ^1.1.1
+  mockito: ^5.4.5
+  firebase_messaging_platform_interface: ^4.5.37
+  firebase_core_platform_interface: ^5.4.0
 
 
 dev_dependencies:
